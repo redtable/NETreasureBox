@@ -1,0 +1,6 @@
+use_frameworks!
+target 'NETreasureBox_Tests' do
+  pod 'NETreasureBox', :path => '../'
+  
+  
+end
