@@ -1,0 +1,16 @@
+PODS:
+  - NETreasureBox (0.1.0)
+
+DEPENDENCIES:
+  - NETreasureBox (from `../`)
+
+EXTERNAL SOURCES:
+  NETreasureBox:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  NETreasureBox: 1f1399917b854bb7c3143f39b5e422763a68afaa
+
+PODFILE CHECKSUM: 0d8a7a25e6e7f13cbfe353f1e88b0ad051adb5fe
+
+COCOAPODS: 1.8.4
