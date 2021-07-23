@@ -13,6 +13,6 @@
 
 #import <YYCategories.h>
 #import <Masonry.h>
-
+#import "NETreasureMacro.h"
 
 #endif /* NEMainPageList_pch */
