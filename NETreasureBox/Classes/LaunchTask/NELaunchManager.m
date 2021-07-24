@@ -11,8 +11,8 @@
 @interface NELaunchManager ()
 
 @property (nonatomic, copy) NSDictionary * launchOptions;
-@property (nonatomic, copy) NSArray <id<NELaunchTaskProtocol>>* serialTasks;
-@property (nonatomic, copy) NSArray <id<NELaunchTaskProtocol>>* concurrentTasks;
+@property (nonatomic, strong) NSMutableArray <id<NELaunchTaskProtocol>>* serialTasks;
+@property (nonatomic, strong) NSMutableArray <id<NELaunchTaskProtocol>>* concurrentTasks;
 
 @end
 
@@ -29,27 +29,29 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        [self collectTasks];
+//        [self collectTasks];
+        _serialTasks = [NSMutableArray array];
+        _concurrentTasks = [NSMutableArray array];
     }
     return self;
 }
 
-- (void)collectTasks {
-    NSArray * serialTaskNames = @[
-        @"NERootWindowMakeLaunchTask",
-        @"NEPrivatePolicyLaunchTask",
-//        @"NEServiceQualityLaunchTask",
-//        @"NEAccountInitLaunchTask",
-//        @"NEVPNStatusKeepLaunchTask",
-//        @"NEConnectConfigurationUpdateLaunchTask",
-    ];
-    NSArray * concurrentTaskNames = @[
-//        @"NEValidPeriodCheckerLaunchTask",
-//        @"NEPurchaseLaunchTask",
-    ];
-    self.serialTasks = [self tasksWithNames:serialTaskNames];
-    self.concurrentTasks = [self tasksWithNames:concurrentTaskNames];
-}
+//- (void)collectTasks {
+//    NSArray * serialTaskNames = @[
+//        @"NERootWindowMakeLaunchTask",
+//        @"NEPrivatePolicyLaunchTask",
+////        @"NEServiceQualityLaunchTask",
+////        @"NEAccountInitLaunchTask",
+////        @"NEVPNStatusKeepLaunchTask",
+////        @"NEConnectConfigurationUpdateLaunchTask",
+//    ];
+//    NSArray * concurrentTaskNames = @[
+////        @"NEValidPeriodCheckerLaunchTask",
+////        @"NEPurchaseLaunchTask",
+//    ];
+//    self.serialTasks = [self tasksWithNames:serialTaskNames];
+//    self.concurrentTasks = [self tasksWithNames:concurrentTaskNames];
+//}
 
 - (NSArray <id<NELaunchTaskProtocol>>*)tasksWithNames:(NSArray <NSString *>*)taskNames {
     NSMutableArray * tasks = [NSMutableArray arrayWithCapacity:taskNames.count];
@@ -60,10 +62,25 @@
     return tasks;
 }
 
-- (void)didFinishLaunchingWithOptions:(NSDictionary *)options {
-//    NSLog(@"--- ---> 启动");
-    self.launchOptions = options;
-    [self executeSerialLaunchTasks];
++ (void)registerLaunchTaskNames:(NSArray <NSString *>*)taskNames type:(NELaunchTaskType)type {
+    NSArray <id<NELaunchTaskProtocol>>* tasks = [[NELaunchManager manager] tasksWithNames:taskNames];
+    NSMutableArray * currentTasks;
+    if (type == NELaunchTaskTypeSerial) {
+        currentTasks = [NELaunchManager manager].serialTasks;
+    } else if (type == NELaunchTaskTypeConcurrent) {
+        currentTasks = [NELaunchManager manager].concurrentTasks;
+    }
+    [tasks enumerateObjectsUsingBlock:^(id<NELaunchTaskProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([currentTasks containsObject:obj]) {
+            return;
+        }
+        [currentTasks addObject:obj];
+    }];
+}
+
++ (void)didFinishLaunchingWithOptions:(NSDictionary *)options {
+    [NELaunchManager manager].launchOptions = options;
+    [[NELaunchManager manager] executeSerialLaunchTasks];
 }
 
 #pragma mark - Execute Tasks -

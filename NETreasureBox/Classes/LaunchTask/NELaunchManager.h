@@ -9,11 +9,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, NELaunchTaskType) {
+    NELaunchTaskTypeSerial = 0,
+    NELaunchTaskTypeConcurrent = 1,
+};
+
 @interface NELaunchManager : NSObject
 
-+ (instancetype)manager;
++ (void)registerLaunchTaskNames:(NSArray <NSString *>*)taskNames type:(NELaunchTaskType)type;
 
-- (void)didFinishLaunchingWithOptions:(NSDictionary *)options;
++ (void)didFinishLaunchingWithOptions:(NSDictionary *)options;
 
 @end
 
