@@ -33,7 +33,7 @@ TODO: Add long description of the pod here.
   s.source_files = 'NETreasureBox/Classes/**/*'
   s.source_files = ['NETreasureBox/Classes/**/**/**/*.{h,m,mm}', 'NETreasureBox/Classes/**/**/*.{h,m,mm}', 'NETreasureBox/Classes/**/*.{h,m,mm}', 'NETreasureBox/Classes/*.{h,m,mm}']
   s.resource_bundles = {
-    'NETreasureBox' => ['NETreasureBox/Assets/**/*.xcassets','NETreasureBox/Assets/**/*.json']
+    'NETreasureBox-res' => ['NETreasureBox/Assets/**/*.xcassets', 'NETreasureBox/Assets/**/*.json', 'NETreasureBox/Assets/**/*.otf']
   }
 
   s.public_header_files = 'Pod/Classes/**/**/**/*.h'

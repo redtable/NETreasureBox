@@ -6,6 +6,7 @@
 //
 
 #import "NEBaseUtils.h"
+#import "NEFontUtils.h"
 
 #ifndef NEMacro_h
 #define NEMacro_h
@@ -24,9 +25,13 @@
 #define NEKeyWindow [NEBaseUtils keyWindow]
 #define NEImageFile(fileName) [UIImage imageNamed:fileName]
 
-#define NEFontRegular(fontSize) [UIFont fontWithName:@"PingFangTC-Light" size:fontSize]
-#define NEFontMedium(fontSize) [UIFont fontWithName:@"PingFangTC-Regular" size:fontSize]
-#define NEFontBold(fontSize) [UIFont fontWithName:@"PingFangTC-Semibold" size:fontSize]
+//#define NEFontRegular(fontSize) [UIFont fontWithName:@"SourceHanSansCN-Regular" size:fontSize]
+//#define NEFontMedium(fontSize) [UIFont fontWithName:@"SourceHanSansCN-Medium" size:fontSize]
+//#define NEFontBold(fontSize) [UIFont fontWithName:@"SourceHanSansCN-Bold" size:fontSize]
+
+#define NEFontRegular(fontSize) NEGetFont(@"SourceHanSansCN-Regular", fontSize)
+#define NEFontMedium(fontSize) NEGetFont(@"SourceHanSansCN-Medium", fontSize)
+#define NEFontBold(fontSize) NEGetFont(@"SourceHanSansCN-Bold", fontSize)
 //#define NEFontRegular(fontSize) [UIFont systemFontOfSize:fontSize weight:UIFontWeightLight]
 //#define NEFontMedium(fontSize) [UIFont systemFontOfSize:fontSize weight:UIFontWeightRegular]
 //#define NEFontBold(fontSize) [UIFont systemFontOfSize:fontSize weight:UIFontWeightBold]
