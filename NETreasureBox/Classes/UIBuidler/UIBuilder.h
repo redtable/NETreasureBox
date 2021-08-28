@@ -8,7 +8,7 @@
 #ifndef UIBuilder_h
 #define UIBuilder_h
 
-#import "UILable+Builder.h"
+#import "UILabel+Builder.h"
 #import "UIView+Builder.h"
 #import "UIImageView+Builder.h"
 #import "UIButton+Builder.h"
