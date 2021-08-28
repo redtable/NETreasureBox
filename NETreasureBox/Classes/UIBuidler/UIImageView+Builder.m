@@ -9,15 +9,15 @@
 
 @implementation UIImageView (Builder)
 
-+ (instancetype)build {
-    return [UIImageView buildWithImage:nil cornerRadius:0];
++ (instancetype)buildImageView {
+    return [UIImageView buildImageViewWithImage:nil cornerRadius:0];
 }
 
-+ (instancetype)buildWithImage:(UIImage *)image {
-    return [UIImageView buildWithImage:image cornerRadius:0];
++ (instancetype)buildImageViewWithImage:(UIImage *)image {
+    return [UIImageView buildImageViewWithImage:image cornerRadius:0];
 }
 
-+ (instancetype)buildWithImage:(UIImage *)image cornerRadius:(CGFloat)cornerRadius {
++ (instancetype)buildImageViewWithImage:(UIImage *)image cornerRadius:(CGFloat)cornerRadius {
     UIImageView * imageView = [[UIImageView alloc] init];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.image = image;

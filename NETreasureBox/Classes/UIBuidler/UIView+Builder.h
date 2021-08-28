@@ -11,11 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (Builder)
 
-+ (instancetype)build;
++ (instancetype)buildView;
 
-+ (instancetype)buildWithBackgroundColor:(UIColor *)backgroundColor;
++ (instancetype)buildViewWithBackgroundColor:(UIColor *)backgroundColor;
 
-+ (instancetype)buildWithBackgroundColor:(UIColor *)backgroundColor cornerRadius:(CGFloat)cornerRadius;
++ (instancetype)buildViewWithBackgroundColor:(UIColor *)backgroundColor cornerRadius:(CGFloat)cornerRadius;
 
 @end
 

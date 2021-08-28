@@ -9,15 +9,15 @@
 
 @implementation UIButton (Builder)
 
-+ (instancetype)buildWithImage:(UIImage * _Nullable)image actionBlock:(void(^)(id sender))actionBlock {
-    return [UIButton buildWithText:nil textColor:nil font:nil image:image backgroundImage:nil backgroundColor:nil actionBlock:actionBlock];
++ (instancetype)buildButtonWithImage:(UIImage * _Nullable)image actionBlock:(void(^)(id sender))actionBlock {
+    return [UIButton buildButtonWithText:nil textColor:nil font:nil image:image backgroundImage:nil backgroundColor:nil actionBlock:actionBlock];
 }
 
-+ (instancetype)buildWithText:(NSString * _Nullable)text textColor:(UIColor * _Nullable)textColor font:(UIFont * _Nullable)font actionBlock:(void(^)(id sender))actionBlock {
-    return [UIButton buildWithText:text textColor:textColor font:font image:nil backgroundImage:nil backgroundColor:nil actionBlock:actionBlock];
++ (instancetype)buildButtonWithText:(NSString * _Nullable)text textColor:(UIColor * _Nullable)textColor font:(UIFont * _Nullable)font actionBlock:(void(^)(id sender))actionBlock {
+    return [UIButton buildButtonWithText:text textColor:textColor font:font image:nil backgroundImage:nil backgroundColor:nil actionBlock:actionBlock];
 }
 
-+ (instancetype)buildWithText:(NSString *)text textColor:(UIColor *)textColor font:(UIFont *)font image:(UIImage *)image backgroundImage:(UIImage *)backgroundImage backgroundColor:(UIColor *)backgroundColor actionBlock:(void(^)(id sender))actionBlock {
++ (instancetype)buildButtonWithText:(NSString *)text textColor:(UIColor *)textColor font:(UIFont *)font image:(UIImage *)image backgroundImage:(UIImage *)backgroundImage backgroundColor:(UIColor *)backgroundColor actionBlock:(void(^)(id sender))actionBlock {
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     
     if (text) {

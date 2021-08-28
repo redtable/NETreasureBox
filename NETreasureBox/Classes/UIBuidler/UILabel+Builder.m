@@ -9,19 +9,23 @@
 
 @implementation UILabel (Builder)
 
-+ (instancetype)buildWithFont:(UIFont *)font textColor:(UIColor *)textColor {
-    return [UILabel builderWithFont:font textColor:textColor textAlignment:NSTextAlignmentLeft text:nil];
++ (instancetype)buildLabel {
+    return [UILabel buildLabelWithFont:nil textColor:nil textAlignment:NSTextAlignmentLeft text:nil];
 }
 
-+ (instancetype)buildWithFont:(UIFont *)font textColor:(UIColor *)textColor text:(NSString *)text {
-    return [UILabel builderWithFont:font textColor:textColor textAlignment:NSTextAlignmentLeft text:text];
++ (instancetype)buildLabelWithFont:(UIFont *)font textColor:(UIColor *)textColor {
+    return [UILabel buildLabelWithFont:font textColor:textColor textAlignment:NSTextAlignmentLeft text:nil];
 }
 
-+ (instancetype)buildWithFont:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment {
-    return [UILabel builderWithFont:font textColor:textColor textAlignment:textAlignment text:nil];
++ (instancetype)buildLabelWithFont:(UIFont *)font textColor:(UIColor *)textColor text:(NSString *)text {
+    return [UILabel buildLabelWithFont:font textColor:textColor textAlignment:NSTextAlignmentLeft text:text];
 }
 
-+ (instancetype)buildWithFont:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment text:(NSString *)text {
++ (instancetype)buildLabelWithFont:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment {
+    return [UILabel buildLabelWithFont:font textColor:textColor textAlignment:textAlignment text:nil];
+}
+
++ (instancetype)buildLabelWithFont:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment text:(NSString *)text {
     UILabel * label = [[UILabel alloc] init];
     label.font = font;
     label.textAlignment = textAlignment;

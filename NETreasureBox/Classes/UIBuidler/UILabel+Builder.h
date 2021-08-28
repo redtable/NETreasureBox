@@ -11,13 +11,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UILabel (Builder)
 
-+ (instancetype)buildWithFont:(UIFont *)font textColor:(UIColor *)textColor;
++ (instancetype)buildLabel;
 
-+ (instancetype)buildWithFont:(UIFont *)font textColor:(UIColor *)textColor text:(NSString * _Nullable)text;
++ (instancetype)buildLabelWithFont:(UIFont *)font textColor:(UIColor *)textColor;
 
-+ (instancetype)buildWithFont:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment;
++ (instancetype)buildLabelWithFont:(UIFont *)font textColor:(UIColor *)textColor text:(NSString * _Nullable)text;
 
-+ (instancetype)buildWithFont:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment text:(NSString * _Nullable)text;
++ (instancetype)buildLabelWithFont:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment;
+
++ (instancetype)buildLabelWithFont:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment text:(NSString * _Nullable)text;
 
 @end
 

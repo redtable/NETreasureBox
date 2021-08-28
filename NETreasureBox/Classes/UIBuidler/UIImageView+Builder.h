@@ -11,11 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIImageView (Builder)
 
-+ (instancetype)build;
++ (instancetype)buildImageView;
 
-+ (instancetype)buildWithImage:(UIImage * _Nullable)image;
++ (instancetype)buildImageViewWithImage:(UIImage * _Nullable)image;
 
-+ (instancetype)buildWithImage:(UIImage * _Nullable)image cornerRadius:(CGFloat)cornerRadius;
++ (instancetype)buildImageViewWithImage:(UIImage * _Nullable)image cornerRadius:(CGFloat)cornerRadius;
 
 @end
 
