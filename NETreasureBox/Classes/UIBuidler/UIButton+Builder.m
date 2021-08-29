@@ -17,6 +17,10 @@
     return [UIButton buildButtonWithText:text textColor:textColor font:font image:nil backgroundImage:nil backgroundColor:nil actionBlock:actionBlock];
 }
 
++ (instancetype)buildButtonWithText:(NSString * _Nullable)text textColor:(UIColor * _Nullable)textColor font:(UIFont * _Nullable)font image:(UIImage * _Nullable)image actionBlock:(void(^)(id sender))actionBlock {
+    return [UIButton buildButtonWithText:text textColor:textColor font:font image:image backgroundImage:nil backgroundColor:nil actionBlock:actionBlock];
+}
+
 + (instancetype)buildButtonWithText:(NSString *)text textColor:(UIColor *)textColor font:(UIFont *)font image:(UIImage *)image backgroundImage:(UIImage *)backgroundImage backgroundColor:(UIColor *)backgroundColor actionBlock:(void(^)(id sender))actionBlock {
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     
