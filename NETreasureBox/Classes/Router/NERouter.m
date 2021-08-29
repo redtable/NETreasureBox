@@ -22,6 +22,7 @@
         return NO;
     }
     page.params = params;
+    page.hidesBottomBarWhenPushed = YES;
     UINavigationController * navigationController = self.currentNavigationController;
     if (!navigationController) {
         return NO;
@@ -34,6 +35,12 @@
     UIViewController * rootViewController = NEKeyWindow.rootViewController;
     if ([rootViewController isKindOfClass:[UINavigationController class]]) {
         return (UINavigationController *)rootViewController;
+    }
+    if ([rootViewController isKindOfClass:[UITabBarController class]]) {
+        UIViewController * viewController = ((UITabBarController *)rootViewController).selectedViewController;
+        if ([viewController isKindOfClass:[UINavigationController class]]) {
+            return (UINavigationController *)viewController;
+        }
     }
     return nil;
 }
