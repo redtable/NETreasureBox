@@ -11,10 +11,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NEAlertView : UIView
 
-+ (instancetype)alertWithTitle:(NSString *)title message:(NSString *)message;
++ (instancetype)alertWithTitle:(NSString * _Nullable)title message:(NSString * _Nullable)message;
 
-- (void)addLinkMessage:(NSString *)link actionBlock:(void(^)(void))actionBlock;
-- (void)addButtonMessage:(NSString *)link actionBlock:(void(^)(void))actionBlock;
+- (void)addLinkMessage:(NSString *)link actionBlock:(void(^ _Nullable)(void))actionBlock;
+- (void)addButtonMessage:(NSString *)link actionBlock:(void(^ _Nullable)(void))actionBlock;
 
 - (void)showInView:(UIView *)view;
 

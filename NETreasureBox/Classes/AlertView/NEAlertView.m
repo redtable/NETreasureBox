@@ -7,7 +7,7 @@
 
 #import "NEAlertView.h"
 
-#define AlertLineColor RGBColor(0xCCCCCC)
+#define AlertLineColor RGBColor(0xd9d9d9)
 #define AlertBaseTag 999999
 
 @interface NEAlertAction : NSObject
@@ -65,40 +65,47 @@
 - (void)showInView:(UIView *)view {
     [self addSubview:self.containerView];
     [self.containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(MIN(NEScreenCurrentWidth, 428.f) - 45.f * 2);
+        make.width.mas_equalTo(MIN(NEScreenCurrentWidth, 428.f) - 80.f * 2);
         make.center.equalTo(self);
     }];
-    [self.containerView addSubview:self.titleLabel];
-    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.containerView).offset(10.f);
-        make.left.equalTo(self.containerView).offset(15.f);
-        make.right.equalTo(self.containerView).offset(-15.f);
-    }];
+    MASViewAttribute * lastAttribute = self.containerView.mas_top;
+    if ([self.title isNotBlank]) {
+        [self.containerView addSubview:self.titleLabel];
+        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(lastAttribute).offset(10.f);
+            make.left.equalTo(self.containerView).offset(25.f);
+            make.right.equalTo(self.containerView).offset(-25.f);
+        }];
+        UIView * topLine = [[UIView alloc] init];
+        topLine.backgroundColor = AlertLineColor;
+        [self.containerView addSubview:topLine];
+        [topLine mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(self.containerView);
+            make.top.equalTo(self.titleLabel.mas_bottom).offset(10.f);
+            make.height.mas_equalTo(NEOnePx);
+        }];
+        lastAttribute = topLine.mas_bottom;
+    }
     
-    UIView * topLine = [[UIView alloc] init];
-    topLine.backgroundColor = AlertLineColor;
-    [self.containerView addSubview:topLine];
-    [topLine mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.containerView);
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(10.f);
-        make.height.mas_equalTo(NEOnePx);
-    }];
-    
-    [self.containerView addSubview:self.messageView];
-    [self.messageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(20.f);
-        make.width.left.equalTo(self.titleLabel);
-        make.height.mas_equalTo(MAXFLOAT);
-    }];
-    
-    UIView * bottomLine = [[UIView alloc] init];
-    bottomLine.backgroundColor = AlertLineColor;
-    [self.containerView addSubview:bottomLine];
-    [bottomLine mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.containerView);
-        make.top.equalTo(self.messageView.mas_bottom).offset(10.f);
-        make.height.mas_equalTo(NEOnePx);
-    }];
+    if ([self.message isNotBlank]) {
+        [self.containerView addSubview:self.messageView];
+        [self.messageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(lastAttribute).offset(20.f);
+            make.left.equalTo(self.containerView).offset(25.f);
+            make.right.equalTo(self.containerView).offset(-25.f);
+            make.height.mas_equalTo(MAXFLOAT);
+        }];
+        
+        UIView * bottomLine = [[UIView alloc] init];
+        bottomLine.backgroundColor = AlertLineColor;
+        [self.containerView addSubview:bottomLine];
+        [bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(self.containerView);
+            make.top.equalTo(self.messageView.mas_bottom).offset(10.f);
+            make.height.mas_equalTo(NEOnePx);
+        }];
+        lastAttribute = bottomLine.mas_bottom;
+    }
     
     [self layoutIfNeeded];
     CGFloat buttonLeft = 0.f;
@@ -107,20 +114,21 @@
         NEAlertAction * action = [self.buttonActions objectOrNilAtIndex:i];
         UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.tag = AlertBaseTag + i;
-        button.titleLabel.font = NEFontMedium(16);
+        button.titleLabel.font = NEFontMedium(12);
         [button setTitle:action.message forState:UIControlStateNormal];
-        [button setTitleColor:RGBColor(0x666666) forState:UIControlStateNormal];
+        [button setTitleColor:RGBColor(0x333333) forState:UIControlStateNormal];
         if (i == self.buttonActions.count - 1) {
-            button.titleLabel.font = NEFontBold(16);
-            [button setTitleColor:RGBColor(0x4D8AF5) forState:UIControlStateNormal];
+            button.titleLabel.font = NEFontMedium(12);
+            [button setTitleColor:RGBColor(0x333333) forState:UIControlStateNormal];
+//            [button setTitleColor:RGBColor(0x4D8AF5) forState:UIControlStateNormal];
         }
         [button addTarget:self action:@selector(tapButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.containerView addSubview:button];
-        [button mas_remakeConstraints:^(MASConstraintMaker *make) {
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(buttonLeft);
-            make.top.equalTo(self.messageView.mas_bottom).offset(10.f);
+            make.top.equalTo(lastAttribute);
             make.width.mas_equalTo(buttonWidth);
-            make.height.mas_equalTo(44.f);
+            make.height.mas_equalTo(39.f);
             make.bottom.equalTo(self.containerView);
         }];
         buttonLeft += buttonWidth;
@@ -128,7 +136,7 @@
             UIView * centerLine = [[UIView alloc] init];
             centerLine.backgroundColor = AlertLineColor;
             [self.containerView addSubview:centerLine];
-            [centerLine mas_remakeConstraints:^(MASConstraintMaker *make) {
+            [centerLine mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(button.mas_right).offset(-NEOnePx);
                 make.top.height.equalTo(button);
                 make.width.mas_equalTo(NEOnePx);
@@ -138,13 +146,14 @@
     
     self.titleLabel.text = self.title;
     NSMutableAttributedString * message = [[NSMutableAttributedString alloc] initWithString:self.message];
-    [message addAttribute:NSFontAttributeName value:NEFontRegular(14) range:NSMakeRange(0, self.message.length)];
-    [message addAttribute:NSForegroundColorAttributeName value:RGBColor(0x333333) range:NSMakeRange(0, self.message.length)];
+    [message addAttribute:NSFontAttributeName value:NEFontRegular(12) range:NSMakeRange(0, self.message.length)];
+    [message addAttribute:NSForegroundColorAttributeName value:RGBColor(0x03081a) range:NSMakeRange(0, self.message.length)];
     NSMutableParagraphStyle * style = [[NSMutableParagraphStyle alloc] init];
-    style.minimumLineHeight = 16.f;
-    style.maximumLineHeight = 16.f;
-    style.lineSpacing = 2.f;
-    style.firstLineHeadIndent = 28.f;
+    style.minimumLineHeight = 13.f;
+    style.maximumLineHeight = 13.f;
+    style.lineSpacing = 0.f;
+    style.alignment = NSTextAlignmentCenter;
+//    style.firstLineHeadIndent = 28.f;
     [message addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, self.message.length)];
     for (NSInteger i = 0; i < self.linkActions.count; i++) {
         NEAlertAction * action = [self.linkActions objectOrNilAtIndex:i];
@@ -159,7 +168,7 @@
         make.height.mas_equalTo(messageSize.height);
     }];
     [view addSubview:self];
-    [self mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(view);
     }];
 }
@@ -173,9 +182,7 @@
 - (void)tapButtonAction:(UIButton *)button {
     NSInteger index = button.tag - AlertBaseTag;
     NEAlertAction * action = [self.buttonActions objectOrNilAtIndex:index];
-    if (action) {
-        !action.actionBlock ?: action.actionBlock();
-    }
+    !action.actionBlock ?: action.actionBlock();
     [self hide];
 }
 
@@ -184,9 +191,7 @@
     if (host.length) {
         NSInteger index = [host integerValue];
         NEAlertAction * action = [self.linkActions objectOrNilAtIndex:index];
-        if (action) {
-            !action.actionBlock ?: action.actionBlock();
-        }
+        !action.actionBlock ?: action.actionBlock();
     }
     return NO;
 }
