@@ -88,8 +88,9 @@ static CGFloat const kSegmentedControlDefaultHeight = 50.f;
     if (!self.childViewControllers.count) { return; }
     
     [self.segmentedControl setSelectedIndex:selectedIndex animated:animated];
-    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:animated];
-    
+//    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:animated];
+    CGFloat offsetX = selectedIndex * ((UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout).itemSize.width;
+    [self.collectionView setContentOffset:CGPointMake(offsetX, 0.f) animated:animated];
     if ([self.delegate respondsToSelector:@selector(segmentedPageController:didSelectItemAtIndex:)]) {
         [self.delegate segmentedPageController:self didSelectItemAtIndex:selectedIndex];
     }
@@ -151,8 +152,9 @@ static CGFloat const kSegmentedControlDefaultHeight = 50.f;
 }
 
 - (void)segmentedControl:(NESegmentedControl *)segmentedControl didSelectItemAtIndex:(NSInteger)index {
-    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-    
+    CGFloat offsetX = index * ((UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout).itemSize.width;
+    [self.collectionView setContentOffset:CGPointMake(offsetX, 0.f) animated:NO];
+
     if ([self.delegate respondsToSelector:@selector(segmentedPageController:didSelectItemAtIndex:)]) {
         [self.delegate segmentedPageController:self didSelectItemAtIndex:index];
     }
