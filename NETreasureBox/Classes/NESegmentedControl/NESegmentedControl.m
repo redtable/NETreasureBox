@@ -214,6 +214,13 @@
     return 0.f;
 }
 
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    if (_delegateHas.minimumInteritemSpacingForSegmentedControl) {
+        return [self.delegate minimumInteritemSpacingForSegmentedControl:self];
+    }
+    return 0.f;
+}
+
 #pragma mark - UIScrollViewDelegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (_delegateHas.scrollViewDidScroll) {
@@ -367,6 +374,9 @@
         _textLabel.textColor = [UIColor darkTextColor];
         _textLabel.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:_textLabel];
+        [_textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView);
+        }];
     }
     return _textLabel;
 }

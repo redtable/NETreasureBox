@@ -186,6 +186,8 @@ static CGFloat const kSegmentedControlDefaultHeight = 50.f;
     return CGPointMake(0.f, height - 7.f);
 }
 
+//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+
 - (CGFloat)minimumInteritemSpacingForSegmentedControl:(NESegmentedControl *)segmentedControl {
     if ([self.delegate respondsToSelector:@selector(minimumInteritemSpacingForSegmentedControlInSegmentedPageController:)]) {
         return [self.delegate minimumInteritemSpacingForSegmentedControlInSegmentedPageController:self];
