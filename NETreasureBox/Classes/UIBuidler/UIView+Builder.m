@@ -24,7 +24,7 @@
     }
     if (cornerRadius > 0) {
         view.layer.cornerRadius = cornerRadius;
-        view.layer.maskedCorners = YES;
+        view.layer.masksToBounds = YES;
     }
     return view;
 }
