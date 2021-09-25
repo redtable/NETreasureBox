@@ -39,7 +39,7 @@
 #define NEOnePx (1.f / kScreenScale)
 #define NELocalizedString(string) NSLocalizedString(string, nil)
 
-#define ThemeColor RGBColor(0x00788B)
+#define ThemeColor RGBColor(0x427AF2)
 
 #ifndef RGBColor
 #define RGBColor(_hex_) UIColorHex(_hex_)
