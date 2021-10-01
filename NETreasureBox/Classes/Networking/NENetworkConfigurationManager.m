@@ -9,7 +9,6 @@
 
 @interface NENetworkConfigurationManager ()
 
-@property (nonatomic, copy) NSString * baseURL;
 @property (nonatomic, strong) AFHTTPSessionManager * sessionManager;
 
 @end
@@ -27,7 +26,6 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-#warning  baseURL !!!
 //        _baseURL = NEBaseURL;
     }
     return self;

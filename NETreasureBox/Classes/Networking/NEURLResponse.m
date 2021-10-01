@@ -7,6 +7,7 @@
 
 #import "NEURLResponse.h"
 
+NSInteger const NEURLResponseCodeSuccess = 0; ///< 成功
 NEURLResponseResult const NEURLResponseResultSuccess = @"success"; ///< 成功
 NEURLResponseResult const NEURLResponseResultFailed = @"fail"; ///< 失败
 NEURLResponseResult const NEURLResponseResultLink = @"moveto"; ///< 跳转link
@@ -15,7 +16,7 @@ NEURLResponseResult const NEURLResponseResultLink = @"moveto"; ///< 跳转link
 
 + (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
     return @{
-        @"data" : @"info",
+        @"data" : @"data",
         @"code" : @"code",
         @"result" : @"result",
     };
@@ -24,7 +25,7 @@ NEURLResponseResult const NEURLResponseResultLink = @"moveto"; ///< 跳转link
 - (NSError *)error {
     NSString * description = @"";
     if (self.data && [self.data isKindOfClass:[NSString class]]) {
-        description = self.data;
+        description = [NSString stringWithFormat:@"%@(%zd)", self.data, self.code];
     }
     return [NSError errorWithDomain:@"resp.error.domain" code:self.code userInfo:@{
         NSLocalizedDescriptionKey : description,

@@ -9,6 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+FOUNDATION_EXTERN NSInteger const NEURLResponseCodeSuccess;
+
 typedef NSString * NEURLResponseResult;
 FOUNDATION_EXTERN NEURLResponseResult const NEURLResponseResultSuccess; ///< 成功
 FOUNDATION_EXTERN NEURLResponseResult const NEURLResponseResultFailed; ///< 失败

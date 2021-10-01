@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NENetworkConfigurationManager : NSObject
 
-@property (nonatomic, readonly, copy) NSString * baseURL;
+@property (nonatomic, copy) NSString * baseURL;
+@property (nonatomic, copy) NSDictionary * publicParams;
 
 + (instancetype)manager;
 

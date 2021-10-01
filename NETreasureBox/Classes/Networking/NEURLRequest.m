@@ -72,8 +72,7 @@
                                                           downloadProgress:nil
     success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NEURLResponse * response = [NEURLResponse yy_modelWithJSON:responseObject];
-        if ([response.result isEqualToString:NEURLResponseResultSuccess] ||
-            [response.result isEqualToString:NEURLResponseResultLink]) {
+        if (response.code == NEURLResponseCodeSuccess) {
             !success ?: success(response);
         } else {
             !failure ?: failure(response.error);
@@ -155,11 +154,12 @@
 }
 
 - (NSDictionary *)requestParameters {
-    if ([self.parameters objectForKey:@"from"]) {
-        return self.parameters;
-    }
+//    if ([self.parameters objectForKey:@"from"]) {
+//        return self.parameters;
+//    }
     NSMutableDictionary * parameters = [NSMutableDictionary dictionaryWithDictionary:self.parameters];
-    [parameters setObject:@"qtc" forKey:@"from"];
+//    [parameters setObject:@"qtc" forKey:@"from"];
+    [parameters addEntriesFromDictionary:[NENetworkConfigurationManager manager].publicParams];
     return parameters;
 }
 

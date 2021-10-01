@@ -41,19 +41,20 @@
 - (void)layoutContentViews {
     [self.containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.mas_centerX);
-        make.centerY.equalTo(self.mas_centerY).offset(-30.f);
+        make.centerY.equalTo(self.mas_centerY).offset(-50.f);
         make.width.mas_equalTo(kLimitWidth);
     }];
     
     [self.imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.containerView.mas_centerX);
         make.top.equalTo(self.containerView.mas_top);
-        make.size.mas_equalTo(CGSizeMake(102.f, 102.f));
+//        make.size.mas_equalTo(CGSizeMake(102.f, 102.f));
+        make.size.mas_equalTo(CGSizeMake(219.f, 246.f));
     }];
     
     BOOL hasRetryButton = _retryButton.superview;
     [self.textLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.imageView.mas_bottom).offset(10.f);
+        make.top.equalTo(self.imageView.mas_bottom).offset(24.f);
         make.centerX.equalTo(self.containerView.mas_centerX);
         make.width.mas_lessThanOrEqualTo(kLimitWidth);
         if (!hasRetryButton) {
