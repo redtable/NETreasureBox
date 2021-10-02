@@ -18,7 +18,7 @@ FOUNDATION_EXTERN NEURLResponseResult const NEURLResponseResultLink; ///< 跳转
 
 @interface NEURLResponse : NSObject <YYModel>
 
-@property (nonatomic, copy) id data;
+@property (nonatomic, copy) NSDictionary * data;
 @property (nonatomic, assign) NSInteger code;
 @property (nonatomic, copy) NEURLResponseResult result;
 @property (nonatomic, readonly, strong) NSError * error;

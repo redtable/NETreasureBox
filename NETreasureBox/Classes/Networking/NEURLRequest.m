@@ -72,6 +72,12 @@
                                                           downloadProgress:nil
     success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NEURLResponse * response = [NEURLResponse yy_modelWithJSON:responseObject];
+        if (![response.data isKindOfClass:[NSDictionary class]]) {
+#warning 这里约定好data是对象才可以
+            response.data = [NSDictionary dictionary];
+//            !failure ?: failure(NEErrorMake(1001, @"data should be dictionary !"));
+//            return;
+        }
         if (response.code == NEURLResponseCodeSuccess) {
             !success ?: success(response);
         } else {
