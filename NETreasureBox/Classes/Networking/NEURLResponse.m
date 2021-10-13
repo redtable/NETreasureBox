@@ -19,11 +19,12 @@ NEURLResponseResult const NEURLResponseResultLink = @"moveto"; ///< 跳转link
         @"data" : @"data",
         @"code" : @"code",
         @"result" : @"result",
+        @"message" : @"detail",
     };
 }
 
 - (NSError *)error {
-    NSString * description = @"";
+    NSString * description = self.message;
     if (self.data && [self.data isKindOfClass:[NSString class]]) {
         description = [NSString stringWithFormat:@"%@(%zd)", self.data, self.code];
     }
