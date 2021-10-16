@@ -13,8 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)alertWithTitle:(NSString * _Nullable)title message:(NSString * _Nullable)message;
 
-- (void)addLinkMessage:(NSString *)link actionBlock:(void(^ _Nullable)(void))actionBlock;
-- (void)addButtonMessage:(NSString *)link actionBlock:(void(^ _Nullable)(void))actionBlock;
+- (void)addTextFieldMessage:(NSString *)message actionBlock:(void(^)(NSString * text))actionBlock;
+- (void)addLinkMessage:(NSString *)message actionBlock:(void(^ _Nullable)(void))actionBlock;
+- (void)addButtonMessage:(NSString *)message actionBlock:(void(^ _Nullable)(void))actionBlock;
 
 - (void)showInView:(UIView *)view;
 
