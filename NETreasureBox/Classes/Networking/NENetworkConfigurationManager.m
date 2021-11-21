@@ -36,6 +36,7 @@
         _sessionManager = [AFHTTPSessionManager manager];
         _sessionManager.requestSerializer.timeoutInterval = 30.f;
         _sessionManager.requestSerializer = [AFJSONRequestSerializer serializerWithWritingOptions:(NSJSONWritingOptions)0];
+//        _sessionManager.securityPolicy.allowInvalidCertificates = YES;
     }
 //    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
 //    manager.requestSerializer.timeoutInterval = 30.f;
