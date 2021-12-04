@@ -13,6 +13,7 @@
 @interface NEAlertAction : NSObject
 
 @property (nonatomic, copy) NSString * message;
+@property (nonatomic, assign, getter=isHighlighted) BOOL highlighted;
 @property (nonatomic, copy) void(^actionBlock)(void);
 @property (nonatomic, copy) void(^textActionBlock)(NSString * text);
 
@@ -26,6 +27,7 @@
 
 @property (nonatomic, strong) UIView * containerView;
 @property (nonatomic, strong) UILabel * titleLabel;
+@property (nonatomic, strong) UILabel * subTitleLabel;
 @property (nonatomic, strong) UITextView * messageView;
 @property (nonatomic, strong) UITextField * textField;
 @property (nonatomic, strong) NSMutableArray <NEAlertAction *>* textActions;
@@ -33,6 +35,7 @@
 @property (nonatomic, strong) NSMutableArray <NEAlertAction *>* buttonActions;
 
 @property (nonatomic, copy) NSString * title;
+@property (nonatomic, copy) NSString * subTitle;
 @property (nonatomic, copy) NSString * message;
 
 @end
@@ -44,9 +47,14 @@
 @implementation NEAlertView
 
 + (instancetype)alertWithTitle:(NSString *)title message:(NSString *)message {
+    return [NEAlertView alertWithTitle:title subTitle:nil message:message];
+}
+
++ (instancetype)alertWithTitle:(NSString * _Nullable)title subTitle:(NSString * _Nullable)subTitle message:(NSString * _Nullable)message {
     NEAlertView * alertView = [[NEAlertView alloc] init];
     alertView.backgroundColor = RGBAColor(0x000000, 0.3f);
     alertView.title = title;
+    alertView.subTitle = subTitle;
     alertView.message = message;
     return alertView;
 }
@@ -65,9 +73,10 @@
     [self.linkActions addObject:action];
 }
 
-- (void)addButtonMessage:(NSString *)message actionBlock:(void(^)(void))actionBlock {
+- (void)addButtonMessage:(NSString *)message style:(NEAlertButtonStyle)style actionBlock:(void(^)(void))actionBlock {
     NEAlertAction * action = [[NEAlertAction alloc] init];
     action.message = message;
+    action.highlighted = (style == NEAlertButtonStyleHighlighted);
     action.actionBlock = actionBlock;
     [self.buttonActions addObject:action];
 }
@@ -86,12 +95,26 @@
             make.left.equalTo(self.containerView).offset(25.f);
             make.right.equalTo(self.containerView).offset(-25.f);
         }];
+        lastAttribute = self.titleLabel.mas_bottom;
+    }
+    
+    if ([self.subTitle isNotBlank]) {
+        [self.containerView addSubview:self.subTitleLabel];
+        [self.subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(lastAttribute).offset(10.f);
+            make.left.equalTo(self.containerView).offset(25.f);
+            make.right.equalTo(self.containerView).offset(-25.f);
+        }];
+        lastAttribute = self.subTitleLabel.mas_bottom;
+    }
+    
+    if ([self.title isNotBlank] || [self.subTitle isNotBlank]) {
         UIView * topLine = [[UIView alloc] init];
         topLine.backgroundColor = AlertLineColor;
         [self.containerView addSubview:topLine];
         [topLine mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(self.containerView);
-            make.top.equalTo(self.titleLabel.mas_bottom).offset(10.f);
+            make.top.equalTo(lastAttribute).offset(10.f);
             make.height.mas_equalTo(NEOnePx);
         }];
         lastAttribute = topLine.mas_bottom;
@@ -131,43 +154,98 @@
         lastAttribute = self.textField.mas_bottom;
     }
     
-    CGFloat buttonLeft = 0.f;
-    CGFloat buttonWidth = self.containerView.width / self.buttonActions.count;
-    for (NSInteger i = 0; i < self.buttonActions.count; i++) {
-        NEAlertAction * action = [self.buttonActions objectOrNilAtIndex:i];
-        UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.tag = AlertBaseTag + i;
-        button.titleLabel.font = NEFontMedium(12);
-        [button setTitle:action.message forState:UIControlStateNormal];
-        [button setTitleColor:RGBColor(0x333333) forState:UIControlStateNormal];
-        if (i == self.buttonActions.count - 1) {
+    if (self.buttonActions.count <= 2) {
+        // 横向排列
+        CGFloat buttonLeft = 0.f;
+        CGFloat buttonWidth = self.containerView.width / self.buttonActions.count;
+        for (NSInteger i = 0; i < self.buttonActions.count; i++) {
+            NEAlertAction * action = [self.buttonActions objectOrNilAtIndex:i];
+            UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.tag = AlertBaseTag + i;
             button.titleLabel.font = NEFontMedium(12);
+            [button setTitle:action.message forState:UIControlStateNormal];
             [button setTitleColor:RGBColor(0x333333) forState:UIControlStateNormal];
-//            [button setTitleColor:RGBColor(0x4D8AF5) forState:UIControlStateNormal];
-        }
-        [button addTarget:self action:@selector(tapButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        [self.containerView addSubview:button];
-        [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(buttonLeft);
-            make.top.equalTo(lastAttribute);
-            make.width.mas_equalTo(buttonWidth);
-            make.height.mas_equalTo(39.f);
-            make.bottom.equalTo(self.containerView);
-        }];
-        buttonLeft += buttonWidth;
-        if (i < self.buttonActions.count - 1) {
-            UIView * centerLine = [[UIView alloc] init];
-            centerLine.backgroundColor = AlertLineColor;
-            [self.containerView addSubview:centerLine];
-            [centerLine mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(button.mas_right).offset(-NEOnePx);
-                make.top.height.equalTo(button);
-                make.width.mas_equalTo(NEOnePx);
+            if (action.isHighlighted == NEAlertButtonStyleHighlighted) {
+                button.titleLabel.font = NEFontMedium(12);
+                [button setTitleColor:RGBColor(0x4D8AF5) forState:UIControlStateNormal];
+            }
+            [button addTarget:self action:@selector(tapButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+            [self.containerView addSubview:button];
+            [button mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(buttonLeft);
+                make.top.equalTo(lastAttribute);
+                make.width.mas_equalTo(buttonWidth);
+                make.height.mas_equalTo(39.f);
+                make.bottom.equalTo(self.containerView);
             }];
+            buttonLeft += buttonWidth;
+            if (i < self.buttonActions.count - 1) {
+                UIView * centerLine = [[UIView alloc] init];
+                centerLine.backgroundColor = AlertLineColor;
+                [self.containerView addSubview:centerLine];
+                [centerLine mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(button.mas_right).offset(-NEOnePx);
+                    make.top.height.equalTo(button);
+                    make.width.mas_equalTo(NEOnePx);
+                }];
+            }
+        }
+    } else {
+        // 纵向排列
+        for (NSInteger i = 0; i < self.buttonActions.count; i++) {
+            NEAlertAction * action = [self.buttonActions objectOrNilAtIndex:i];
+            UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.tag = AlertBaseTag + i;
+            button.titleLabel.font = NEFontMedium(14);
+            [button setTitle:action.message forState:UIControlStateNormal];
+            [button setTitleColor:RGBColor(0x333333) forState:UIControlStateNormal];
+            if (action.isHighlighted == NEAlertButtonStyleHighlighted) {
+                button.titleLabel.font = NEFontMedium(14);
+                [button setTitleColor:RGBColor(0x4D8AF5) forState:UIControlStateNormal];
+            }
+            [button addTarget:self action:@selector(tapButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+            [self.containerView addSubview:button];
+            [button mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(self.containerView);
+                make.top.equalTo(lastAttribute);
+                make.width.mas_equalTo(self.containerView);
+                make.height.mas_equalTo(39.f);
+            }];
+            
+            if (i < self.buttonActions.count - 1) {
+                UIView * bottomLine = [[UIView alloc] init];
+                bottomLine.backgroundColor = AlertLineColor;
+                [self.containerView addSubview:bottomLine];
+                [bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.right.equalTo(self.containerView);
+                    make.top.equalTo(button.mas_bottom);
+                    make.height.mas_equalTo(NEOnePx);
+                }];
+                lastAttribute = bottomLine.mas_bottom;
+            } else {
+                [button mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.bottom.equalTo(self.containerView);
+                }];
+            }
         }
     }
     
     self.titleLabel.text = self.title;
+    self.subTitleLabel.text = self.subTitle;
+    
+    if ([self.subTitle isNotBlank]) {
+        NSMutableAttributedString * subTitle = [[NSMutableAttributedString alloc] initWithString:self.subTitle];
+        [subTitle addAttribute:NSFontAttributeName value:NEFontRegular(12) range:NSMakeRange(0, self.subTitle.length)];
+        [subTitle addAttribute:NSForegroundColorAttributeName value:RGBColor(0x333333) range:NSMakeRange(0, self.message.length)];
+        NSMutableParagraphStyle * style = [[NSMutableParagraphStyle alloc] init];
+        style.minimumLineHeight = 18.f;
+        style.maximumLineHeight = 18.f;
+        style.lineSpacing = 0.f;
+        style.alignment = NSTextAlignmentCenter;
+        [subTitle addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, self.subTitle.length)];
+        
+        self.subTitleLabel.attributedText = subTitle;
+    }
     
     if ([self.message isNotBlank]) {
         NSMutableAttributedString * message = [[NSMutableAttributedString alloc] initWithString:self.message];
@@ -287,6 +365,18 @@
         _messageView.delegate = self;
     }
     return _messageView;
+}
+
+- (UILabel *)subTitleLabel {
+    if (!_subTitleLabel) {
+        _subTitleLabel = [[UILabel alloc] init];
+        _subTitleLabel.textAlignment = NSTextAlignmentCenter;
+        _subTitleLabel.backgroundColor = [UIColor whiteColor];
+        _subTitleLabel.font = NEFontRegular(12);
+        _subTitleLabel.textColor = RGBColor(0x333333);
+        _subTitleLabel.numberOfLines = 0;
+    }
+    return _subTitleLabel;
 }
 
 - (UILabel *)titleLabel {
