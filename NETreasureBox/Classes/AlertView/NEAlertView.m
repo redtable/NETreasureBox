@@ -91,7 +91,7 @@
     if ([self.title isNotBlank]) {
         [self.containerView addSubview:self.titleLabel];
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(lastAttribute).offset(10.f);
+            make.top.equalTo(lastAttribute).offset(15.f);
             make.left.equalTo(self.containerView).offset(25.f);
             make.right.equalTo(self.containerView).offset(-25.f);
         }];
@@ -114,7 +114,7 @@
         [self.containerView addSubview:topLine];
         [topLine mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(self.containerView);
-            make.top.equalTo(lastAttribute).offset(10.f);
+            make.top.equalTo(lastAttribute).offset(15.f);
             make.height.mas_equalTo(NEOnePx);
         }];
         lastAttribute = topLine.mas_bottom;
@@ -134,7 +134,7 @@
         [self.containerView addSubview:bottomLine];
         [bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(self.containerView);
-            make.top.equalTo(self.messageView.mas_bottom).offset(10.f);
+            make.top.equalTo(self.messageView.mas_bottom).offset(15.f);
             make.height.mas_equalTo(NEOnePx);
         }];
         lastAttribute = bottomLine.mas_bottom;
@@ -162,11 +162,11 @@
             NEAlertAction * action = [self.buttonActions objectOrNilAtIndex:i];
             UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.tag = AlertBaseTag + i;
-            button.titleLabel.font = NEFontMedium(12);
+            button.titleLabel.font = NEFontMedium(15);
             [button setTitle:action.message forState:UIControlStateNormal];
-            [button setTitleColor:RGBColor(0x333333) forState:UIControlStateNormal];
+            [button setTitleColor:RGBColor(0x999999) forState:UIControlStateNormal];
             if (action.isHighlighted == NEAlertButtonStyleHighlighted) {
-                button.titleLabel.font = NEFontMedium(12);
+                button.titleLabel.font = NEFontMedium(15);
                 [button setTitleColor:RGBColor(0x4D8AF5) forState:UIControlStateNormal];
             }
             [button addTarget:self action:@selector(tapButtonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -196,11 +196,11 @@
             NEAlertAction * action = [self.buttonActions objectOrNilAtIndex:i];
             UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.tag = AlertBaseTag + i;
-            button.titleLabel.font = NEFontMedium(14);
+            button.titleLabel.font = NEFontMedium(15);
             [button setTitle:action.message forState:UIControlStateNormal];
-            [button setTitleColor:RGBColor(0x333333) forState:UIControlStateNormal];
+            [button setTitleColor:RGBColor(0x999999) forState:UIControlStateNormal];
             if (action.isHighlighted == NEAlertButtonStyleHighlighted) {
-                button.titleLabel.font = NEFontMedium(14);
+                button.titleLabel.font = NEFontMedium(15);
                 [button setTitleColor:RGBColor(0x4D8AF5) forState:UIControlStateNormal];
             }
             [button addTarget:self action:@selector(tapButtonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -235,7 +235,7 @@
     
     if ([self.subTitle isNotBlank]) {
         NSMutableAttributedString * subTitle = [[NSMutableAttributedString alloc] initWithString:self.subTitle];
-        [subTitle addAttribute:NSFontAttributeName value:NEFontRegular(12) range:NSMakeRange(0, self.subTitle.length)];
+        [subTitle addAttribute:NSFontAttributeName value:NEFontRegular(13) range:NSMakeRange(0, self.subTitle.length)];
         [subTitle addAttribute:NSForegroundColorAttributeName value:RGBColor(0x333333) range:NSMakeRange(0, self.message.length)];
         NSMutableParagraphStyle * style = [[NSMutableParagraphStyle alloc] init];
         style.minimumLineHeight = 18.f;
@@ -249,7 +249,7 @@
     
     if ([self.message isNotBlank]) {
         NSMutableAttributedString * message = [[NSMutableAttributedString alloc] initWithString:self.message];
-        [message addAttribute:NSFontAttributeName value:NEFontRegular(12) range:NSMakeRange(0, self.message.length)];
+        [message addAttribute:NSFontAttributeName value:NEFontRegular(13) range:NSMakeRange(0, self.message.length)];
         [message addAttribute:NSForegroundColorAttributeName value:RGBColor(0x03081a) range:NSMakeRange(0, self.message.length)];
         NSMutableParagraphStyle * style = [[NSMutableParagraphStyle alloc] init];
         style.minimumLineHeight = 13.f;
@@ -372,7 +372,7 @@
         _subTitleLabel = [[UILabel alloc] init];
         _subTitleLabel.textAlignment = NSTextAlignmentCenter;
         _subTitleLabel.backgroundColor = [UIColor whiteColor];
-        _subTitleLabel.font = NEFontRegular(12);
+        _subTitleLabel.font = NEFontRegular(13);
         _subTitleLabel.textColor = RGBColor(0x333333);
         _subTitleLabel.numberOfLines = 0;
     }

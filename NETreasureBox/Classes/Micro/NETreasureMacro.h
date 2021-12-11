@@ -7,6 +7,7 @@
 
 #import "NEBaseUtils.h"
 #import "NEFontUtils.h"
+#import "NETreasureBoxBundle.h"
 
 #ifndef NEMacro_h
 #define NEMacro_h
@@ -24,6 +25,7 @@
 #define NEIsNotchScreen [NEBaseUtils isNotchScreen]
 #define NEKeyWindow [NEBaseUtils keyWindow]
 #define NEImageFile(fileName) [UIImage imageNamed:fileName]
+#define NETImageFile(_fileName_) [UIImage imageNamed:_fileName_ inBundle:NETreasureBoxBundle.bundle compatibleWithTraitCollection:nil]
 
 //#define NEFontRegular(fontSize) [UIFont fontWithName:@"SourceHanSansCN-Regular" size:fontSize]
 //#define NEFontMedium(fontSize) [UIFont fontWithName:@"SourceHanSansCN-Medium" size:fontSize]

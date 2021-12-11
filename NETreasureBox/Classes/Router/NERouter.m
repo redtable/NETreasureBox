@@ -6,6 +6,7 @@
 //
 
 #import "NERouter.h"
+#import "NEWebViewController.h"
 
 @implementation NERouter
 
@@ -18,6 +19,12 @@
         return NO;
     }
     __kindof UIViewController * page = [[NSClassFromString(pageName) alloc] init];
+    if (!page && ([pageName hasPrefix:@"https://"] || [pageName hasPrefix:@"http://"])) {
+        page = [[NSClassFromString(@"NEWebViewController") alloc] init];
+        NSMutableDictionary * p = [NSMutableDictionary dictionaryWithDictionary:params];
+        [p setObject:pageName forKey:@"url"];
+        params = p.yy_modelCopy;
+    }
     if (!page) {
         return NO;
     }

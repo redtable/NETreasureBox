@@ -10,6 +10,7 @@
 #import "UIViewController+NEParam.h"
 #import "UIViewController+NENavigationBar.h"
 #import "UIViewController+NELoading.h"
+#import <UINavigationController+FDFullscreenPopGesture.h>
 
 @interface NEWebViewController () <WKNavigationDelegate>
 
@@ -32,6 +33,7 @@
 - (void)makeInitialiseConfig {
     self.titleLabel.text = [self.params objectForKey:@"title"];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.fd_prefersNavigationBarHidden = YES;
 }
 
 - (void)createViewHierarchy {
@@ -49,7 +51,8 @@
     }];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.bottom.equalTo(self.backButton);
-        make.left.equalTo(self.backButton.mas_right);
+        make.left.mas_equalTo(50.f);
+        make.right.mas_equalTo(-50.f);
     }];
     [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.view);
@@ -92,8 +95,8 @@
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = NEFontBold(16);
-        _titleLabel.textColor = ThemeColor;
-        _titleLabel.textAlignment = NSTextAlignmentLeft;
+        _titleLabel.textColor = RGBColor(0x333333);
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _titleLabel;
 }
@@ -103,7 +106,7 @@
         _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _backButton.bounds = CGRectMake(0, 0, 44.f, 44.f);
         [_backButton setImageEdgeInsets:UIEdgeInsetsMake(12.5f, 18.f, 12.5f, 14.f)];
-        [_backButton setImage:NEImageFile(@"navigation_back") forState:UIControlStateNormal];
+        [_backButton setImage:NETImageFile(@"t_navigationbar_back") forState:UIControlStateNormal];
         [_backButton addTarget:self action:@selector(tapBackButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _backButton;
