@@ -131,7 +131,7 @@
     if (!_textLabel) {
         _textLabel = [[UILabel alloc] init];
         _textLabel.backgroundColor = [UIColor clearColor];
-        _textLabel.font = NEFontRegular(14);
+        _textLabel.font = NEFontRegular(16);
         _textLabel.textColor = RGBColor(0x999999);
         _textLabel.numberOfLines = 0;
         _textLabel.textAlignment = NSTextAlignmentCenter;
@@ -147,7 +147,7 @@
         _retryButton.backgroundColor = [UIColor clearColor];
         _retryButton.layer.cornerRadius = 17.f;
         _retryButton.clipsToBounds = YES;
-        _retryButton.titleLabel.font = NEFontMedium(15);
+        _retryButton.titleLabel.font = NEFontMedium(16);
         [_retryButton setBackgroundColor:ThemeColor];
         [_retryButton addTarget:self action:@selector(didClickRetryButton:) forControlEvents:UIControlEventTouchUpInside];
     }
